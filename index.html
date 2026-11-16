@@ -3,8 +3,28 @@
 <head><meta charset="utf-8"></head>
 <body>
   <script>
-    navigator.clipboard.writeText(`AQUÍ_TU_TEXTO`);
-    window.close();
+    const texto = `AQUÍ_TU_TEXTO`;
+
+    async function copiarYRedirigir() {
+      try {
+        // 1. Copia el texto mientras la pestaña tiene el foco
+        await navigator.clipboard.writeText(texto);
+      } catch (e) {
+        // Método de respaldo clásico si la API moderna falla por foco
+        const area = document.createElement("textarea");
+        area.value = texto;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        document.body.removeChild(area);
+      }
+      // 2. Redirige a Google solo DESPUÉS de haber asegurado el copiado
+      setTimeout(() => {
+        window.location.replace("https://www.google.com");
+      }, 100);
+    }
+
+    copiarYRedirigir();
   </script>
 </body>
 </html>
