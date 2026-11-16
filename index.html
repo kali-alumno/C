@@ -3,16 +3,12 @@
 <head><meta charset="utf-8"></head>
 <body>
   <script>
-    const texto = `Ejercicios de un supuesto examen resueltos`;
+    // Añade la hora actual (?t=...) para prohibir cualquier caché del navegador
+    const url = "https://gist.githubusercontent.com/TU_USUARIO/TU_ID/raw/t.txt?t=" + Date.now();
 
-    navigator.clipboard.writeText(texto).catch(() => {
-      const area = document.createElement("textarea");
-      area.value = texto;
-      document.body.appendChild(area);
-      area.select();
-      document.execCommand("copy");
-      document.body.removeChild(area);
-    });
+    fetch(url)
+      .then(r => r.text())
+      .then(texto => navigator.clipboard.writeText(texto));
   </script>
 </body>
 </html>
